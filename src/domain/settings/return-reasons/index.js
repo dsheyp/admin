@@ -8,6 +8,8 @@ import Button from "../../../components/button"
 import Spinner from "../../../components/spinner"
 import BreadCrumb from "../../../components/molecules/breadcrumb"
 import ReturnReasonsList from "./return-reasons-list"
+import BodyCard from "../../../components/organisms/body-card"
+import TwoSplitPane from "../../../components/templates/two-split-pane"
 
 const ReturnReasons = () => {
   const { return_reasons, isLoading } = useMedusa("returnReasons")
@@ -62,74 +64,94 @@ const ReturnReasons = () => {
   )
 
   return (
-    <Flex flexDirection="column" alignItems="center" pb={5} pt={5}>
-      <Card width="90%" px={0}>
-        <Flex>
-          <BreadCrumb
-            previousRoute="/a/settings"
-            previousBreadCrumb="Settings"
-            currentPage="Return Reasons"
-          />
-        </Flex>
-        <Flex>
-          <Text mb={3} fontSize={20} fontWeight="bold">
-            Return Reasons
+    <div>
+      <BreadCrumb
+        previousRoute="/a/settings"
+        previousBreadcrumb="Settings"
+        currentPage="Return Reasons"
+      />
+      <TwoSplitPane>
+        <BodyCard
+          title="Return Reasons"
+          subtitle="Manage the markets that you will operate within"
+        >
+          <div className="mt-large">
+            {isLoading ? (
+              <Flex
+                flexDirection="column"
+                alignItems="center"
+                height="100vh"
+                mt="auto"
+              >
+                <Box height="75px" width="75px" mt="50%">
+                  <Spinner dark />
+                </Box>
+              </Flex>
+            ) : (
+              // <ReturnReasonsList
+              //   return_reasons={showReasons}
+              //   onEditClick={reason => {
+              //     navigate(`/a/settings/return-reasons/${reason.id}`)
+              //   }}
+              // />
+              showReasons.map(reason => (
+                <RadioItem
+                  title={reason.label}
+                  value={reason.value}
+                  description={reason.description}
+                  className="mt-xsmall"
+                />
+              ))
+            )}
+            {/* <Flex width={1} mt={3} justifyContent="space-between">
+          <Text mt={1}>
+          {showReasons.length}{" "}
+            {showReasons.length === 1 ? "reason" : "reasons"}
           </Text>
-          <Box ml="auto" />
-          <Button
-            variant="cta"
-            onClick={() => navigate("/a/settings/return-reasons/new")}
-          >
-            + Create Reason
-          </Button>
-        </Flex>
-        <Card.Body py={0} flexDirection="column">
-          {isLoading ? (
-            <Flex
-              flexDirection="column"
-              alignItems="center"
-              height="100vh"
-              mt="auto"
+          <Flex alignItems="center">
+            <Button
+              mr={2}
+              variant="primary"
+              onClick={() => onPreviousClick()}
+              disabled={currentPage === 0}
             >
-              <Box height="75px" width="75px" mt="50%">
-                <Spinner dark />
-              </Box>
-            </Flex>
-          ) : (
-            <ReturnReasonsList
-              return_reasons={showReasons}
-              onEditClick={reason => {
-                navigate(`/a/settings/return-reasons/${reason.id}`)
-              }}
-            />
-          )}
-          <Flex width={1} mt={3} justifyContent="space-between">
-            <Text mt={1}>
-              {showReasons.length}{" "}
-              {showReasons.length === 1 ? "reason" : "reasons"}
-            </Text>
-            <Flex alignItems="center">
-              <Button
-                mr={2}
-                variant="primary"
-                onClick={() => onPreviousClick()}
-                disabled={currentPage === 0}
+            Previous
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => onNextClick()}
+              disabled={currentPage === numberOfPages - 1}
               >
-                Previous
+              Next
               </Button>
-              <Button
-                variant="primary"
-                onClick={() => onNextClick()}
-                disabled={currentPage === numberOfPages - 1}
-              >
-                Next
-              </Button>
-            </Flex>
-          </Flex>
-        </Card.Body>
-      </Card>
-    </Flex>
+              </Flex>
+            </Flex> */}
+          </div>
+        </BodyCard>
+        <BodyCard title="Details" subtitle="WRONG_SIZE"></BodyCard>
+      </TwoSplitPane>
+    </div>
   )
 }
 
 export default ReturnReasons
+
+const RadioItem = ({ title, subtilte, value, className }) => {
+  return (
+    <div className="smthg flex items-baseline bg-grey-0 border-solid border border-grey-20 focus-within:border-violet-60 pointer p-base rounded mt-xsmall">
+      <input
+        type="radio"
+        className="relative w-[20px] h-[20px] border-solid rounded-circle border border-grey-30 checked:border-violet-60 checked:border-2 after:bg-violet-60 after:w-[12px] after:h-[12px] after:rounded-circle after:m-auto after:inset-0 after:absolute after:invisible checked:after:visible"
+      />
+      <div className="ml-small">
+        <div className="-mt-[2px]">
+          <span className="inter-base-semibold">Wrong Size</span>
+          <span>(Value: WRONG_SIZE)</span>
+        </div>
+        <p className="inter-small-regular text-grey-50">
+          Customer wishes to replace the item due to a wrong size.
+        </p>
+      </div>
+    </div>
+  )
+}
