@@ -13,6 +13,7 @@ import TwoSplitPane from "../../../components/templates/two-split-pane"
 import PlusIcon from "../../../components/fundamentals/icons/plus-icon"
 import DuplicateIcon from "../../../components/fundamentals/icons/duplicate-icon"
 import TrashIcon from "../../../components/fundamentals/icons/trash-icon"
+import Input from "../../../components/molecules/input"
 
 const ReturnReasons = () => {
   const { return_reasons, isLoading } = useMedusa("returnReasons")
@@ -132,7 +133,15 @@ const ReturnReasons = () => {
           ]}
           title="Details"
           subtitle="WRONG_SIZE"
-        ></BodyCard>
+        >
+          <Input name="label" label="Label" value="Size too big" />
+          <Input
+            name="description"
+            label="Description"
+            className="mt-base"
+            value="Use if the size was too big"
+          />
+        </BodyCard>
       </TwoSplitPane>
     </div>
   )
