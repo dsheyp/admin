@@ -1,4 +1,10 @@
+// Initialize dotenv
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`, // or '.env'
+});
+
 module.exports = {
+  pathPrefix: ``,
   siteMetadata: {
     title: `Medusa Admin`,
     description: `The best ecommerce software.`,
@@ -33,6 +39,12 @@ module.exports = {
     {
       resolve: `gatsby-plugin-create-client-paths`,
       options: { prefixes: [`/a/*`] },
+    },
+    {
+      resolve: `gatsby-plugin-env-variables`,
+      options: {
+        allowList: ["GATSBY_MEDUSA_BACKEND_URL"]
+      },
     },
   ],
 }
